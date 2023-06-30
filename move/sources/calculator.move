@@ -5,13 +5,13 @@ module calculator1::Calculator1{
     use std::string::String;
 
 
-    use aptos_framework::coin::{Self, MintCapability, FreezeCapability, BurnCapability};
+    // use aptos_framework::coin::{Self, MintCapability, FreezeCapability, BurnCapability};
     use aptos_framework::account;
-    use aptos_framework::event::EventHandle;
-    use aptos_framework::event;
-    use std::vector;
-    use aptos_framework::resource_account;
-    use aptos_framework::account::SignerCapability;
+    // use aptos_framework::event::EventHandle;
+    // use aptos_framework::event;
+    // use std::vector;
+    // use aptos_framework::resource_account;
+    // use aptos_framework::account::SignerCapability;
 
 
     /// Represents test BTC coin.
@@ -22,25 +22,25 @@ module calculator1::Calculator1{
     
     
 
-    struct CreateNewPoolEvent has store, drop {
-        owner_addr: address,
-        pool_addr: address,
-    }
+    // struct CreateNewPoolEvent has store, drop {
+    //     owner_addr: address,
+    //     pool_addr: address,
+    // }
 
     // struct AddingEvent has store, drop {
     //     add_res: u256,
     // }
 
-    struct Pools has key {
-        pools: vector<address>,
-        create_new_pool_events: EventHandle<CreateNewPoolEvent>,
+    // struct Pools has key {
+    //     pools: vector<address>,
+    //     create_new_pool_events: EventHandle<CreateNewPoolEvent>,
         
-    }
+    // }
 
-    struct PoolInfo has key{
+    // struct PoolInfo has key{
         
-        signer_cap: account::SignerCapability,
-    }
+    //     signer_cap: account::SignerCapability,
+    // }
 
 
     
@@ -68,70 +68,70 @@ struct Add has key,store, drop {
         
         }
 
-    struct Calc has store,drop,key{
-        operation: String,
-        result: u64,
-    }
+    // struct Calc has store,drop,key{
+    //     operation: String,
+    //     result: u64,
+    // }
     
    
-    /// Storing mint/burn capabilities for `USDT` and `BTC` and `DAI` and `TR` coins under user account.
-    struct Caps<phantom CoinType> has key {
-        mint: MintCapability<CoinType>,
-        freeze: FreezeCapability<CoinType>,
-        burn: BurnCapability<CoinType>,
-    }
+    // /// Storing mint/burn capabilities for `USDT` and `BTC` and `DAI` and `TR` coins under user account.
+    // struct Caps<phantom CoinType> has key {
+    //     mint: MintCapability<CoinType>,
+    //     freeze: FreezeCapability<CoinType>,
+    //     burn: BurnCapability<CoinType>,
+    // }
 
     
 
-    /// Initializes `BTC` and `USDT` and `DAI` and `TR` coins.
-    public entry fun initialize<coinsymbol>(admin: &signer,
-    name:String,
-    coinsymbol:String,
-    ) {
-        let (btc_b, btc_f, btc_m) =
-            coin::initialize<coinsymbol>(admin,
-                name, coinsymbol, 8, true);        
-        move_to(admin, Caps<coinsymbol> { mint: btc_m, freeze: btc_f, burn: btc_b });        
-        register_coins_all(admin);
+    // /// Initializes `BTC` and `USDT` and `DAI` and `TR` coins.
+    // public entry fun initialize<coinsymbol>(admin: &signer,
+    // name:String,
+    // coinsymbol:String,
+    // ) {
+    //     let (btc_b, btc_f, btc_m) =
+    //         coin::initialize<coinsymbol>(admin,
+    //             name, coinsymbol, 8, true);        
+    //     move_to(admin, Caps<coinsymbol> { mint: btc_m, freeze: btc_f, burn: btc_b });        
+    //     register_coins_all(admin);
         
-    }
+    // }
 
 
-    // only resource_account should call this
-    public entry fun register_coins_all(account: &signer) {
-        let account_addr = signer::address_of(account);
-        if (!coin::is_account_registered<BTC>(account_addr)) {
-            coin::register<BTC>(account);
-        };      
-        if (!coin::is_account_registered<USDT>(account_addr)) {
-            coin::register<USDT>(account);
-        }; 
-        if (!coin::is_account_registered<DAI>(account_addr)) {
-            coin::register<DAI>(account);
-        }; 
-        if (!coin::is_account_registered<TR>(account_addr)) {
-            coin::register<TR>(account);
-        };   
-    }
+    // // only resource_account should call this
+    // public entry fun register_coins_all(account: &signer) {
+    //     let account_addr = signer::address_of(account);
+    //     if (!coin::is_account_registered<BTC>(account_addr)) {
+    //         coin::register<BTC>(account);
+    //     };      
+    //     if (!coin::is_account_registered<USDT>(account_addr)) {
+    //         coin::register<USDT>(account);
+    //     }; 
+    //     if (!coin::is_account_registered<DAI>(account_addr)) {
+    //         coin::register<DAI>(account);
+    //     }; 
+    //     if (!coin::is_account_registered<TR>(account_addr)) {
+    //         coin::register<TR>(account);
+    //     };   
+    // }
 
 
-    // Mints new coin `CoinType` on account `acc_addr`.
-    public entry fun mint_coin<CoinType>(admin: &signer, acc_addr: address, amount: u64) acquires Caps {
-        let admin_addr = signer::address_of(admin);
-        let caps = borrow_global<Caps<CoinType>>(admin_addr);
-        let coins = coin::mint<CoinType>(amount, &caps.mint);
-        coin::deposit(acc_addr, coins);
-    }
+    // // Mints new coin `CoinType` on account `acc_addr`.
+    // public entry fun mint_coin<CoinType>(admin: &signer, acc_addr: address, amount: u64) acquires Caps {
+    //     let admin_addr = signer::address_of(admin);
+    //     let caps = borrow_global<Caps<CoinType>>(admin_addr);
+    //     let coins = coin::mint<CoinType>(amount, &caps.mint);
+    //     coin::deposit(acc_addr, coins);
+    // }
 
 
-    public entry fun register<CoinType>(from: &signer) {
-        coin::register<CoinType>(from);
-    }
+    // public entry fun register<CoinType>(from: &signer) {
+    //     coin::register<CoinType>(from);
+    // }
 
 
-    public entry fun transfer<CoinType>(from: &signer, to: address, amount: u64) {
-        coin::transfer<CoinType>(from, to, amount);
-    }
+    // public entry fun transfer<CoinType>(from: &signer, to: address, amount: u64) {
+    //     coin::transfer<CoinType>(from, to, amount);
+    // }
 
     // fun create_pool_signer(pool_add: address): signer acquires PoolInfo {
     //     // let signer_cap = SignerCapability { pool_add };
@@ -148,32 +148,32 @@ struct Add has key,store, drop {
     // }
 
 
-    public entry fun create_new_pool(owner: &signer) acquires Pools {
-        let (pool_signer, signer_cap) = account::create_resource_account(owner, vector::empty());
+    // public entry fun create_new_pool(owner: &signer) acquires Pools {
+    //     let (pool_signer, signer_cap) = account::create_resource_account(owner, vector::empty());
 
-        let pool_addr = signer::address_of(&pool_signer);
+    //     let pool_addr = signer::address_of(&pool_signer);
        
 
-        if (!exists<Pools>(signer::address_of(owner))) {
-            move_to<Pools>(owner, Pools {
-                pools: vector::empty(),
-                create_new_pool_events: account::new_event_handle(owner),
+    //     if (!exists<Pools>(signer::address_of(owner))) {
+    //         move_to<Pools>(owner, Pools {
+    //             pools: vector::empty(),
+    //             create_new_pool_events: account::new_event_handle(owner),
 
-            });
-        };
-        let pools = borrow_global_mut<Pools>(signer::address_of(owner));
+    //         });
+    //     };
+    //     let pools = borrow_global_mut<Pools>(signer::address_of(owner));
 
 
-        event::emit_event(&mut pools.create_new_pool_events, CreateNewPoolEvent {
-            owner_addr: signer::address_of(owner),
-            pool_addr,
-        });
-          let pool = PoolInfo {
+    //     event::emit_event(&mut pools.create_new_pool_events, CreateNewPoolEvent {
+    //         owner_addr: signer::address_of(owner),
+    //         pool_addr,
+    //     });
+    //       let pool = PoolInfo {
             
-            signer_cap
-        };
-        move_to<PoolInfo>(owner, pool);
-    }
+    //         signer_cap
+    //     };
+    //     move_to<PoolInfo>(owner, pool);
+    // }
 
 
    public entry fun add(owner: &signer,d: u64, e: u64 ) acquires Add  {
