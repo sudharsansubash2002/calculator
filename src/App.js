@@ -65,28 +65,11 @@ const Disconnect = async() => {
 
 
 
-			const escrow_account = async () => {
-				const transaction = {
-				type: "entry_function_payload",
-				function: `0xef9990736bdbfcb3e4ab7c036e61166659baaa1ac4faa5194f99cb4c07de0a29::Calculator::create_new_pool`,
-				arguments: [],
-				type_arguments: [],
-				};
-				try {
-				const pendingTransaction = await (window).aptos.signAndSubmitTransaction(transaction);
-				console.log("pendingTransaction", pendingTransaction);
-				const client = new AptosClient('https://testnet.aptoslabs.com');
-				client.waitForTransaction(pendingTransaction.hash);
-				console.log("account created");
-				} catch (error) {
-					console.log("error");
-				}
-				}
 
 				const add_int = async () => {
 					const transaction = {
 					type: "entry_function_payload",
-					function: `0xef9990736bdbfcb3e4ab7c036e61166659baaa1ac4faa5194f99cb4c07de0a29::Calculator::add`,
+					function: `0xef9990736bdbfcb3e4ab7c036e61166659baaa1ac4faa5194f99cb4c07de0a29::Calculator1::add`,
 					arguments: [inputamt.current.value,inputamt1.current.value],
 					type_arguments: [],
 					};
@@ -104,7 +87,7 @@ const Disconnect = async() => {
 					const sub_int = async () => {
 						const transaction = {
 						type: "entry_function_payload",
-						function: `0xef9990736bdbfcb3e4ab7c036e61166659baaa1ac4faa5194f99cb4c07de0a29::Calculator::sub`,
+						function: `0xef9990736bdbfcb3e4ab7c036e61166659baaa1ac4faa5194f99cb4c07de0a29::Calculator1::sub`,
 						arguments: [inputamt2.current.value,inputamt3.current.value],
 						type_arguments: [],
 						};
@@ -122,7 +105,7 @@ const Disconnect = async() => {
 						const mul_int = async () => {
 							const transaction = {
 							type: "entry_function_payload",
-							function: `0xef9990736bdbfcb3e4ab7c036e61166659baaa1ac4faa5194f99cb4c07de0a29::Calculator::mul`,
+							function: `0xef9990736bdbfcb3e4ab7c036e61166659baaa1ac4faa5194f99cb4c07de0a29::Calculator1::mul`,
 							arguments: [inputamt4.current.value,inputamt5.current.value],
 							type_arguments: [],
 							};
@@ -140,7 +123,7 @@ const Disconnect = async() => {
 							const div_int = async () => {
 								const transaction = {
 								type: "entry_function_payload",
-								function: `0xef9990736bdbfcb3e4ab7c036e61166659baaa1ac4faa5194f99cb4c07de0a29::Calculator::add`,
+								function: `0xef9990736bdbfcb3e4ab7c036e61166659baaa1ac4faa5194f99cb4c07de0a29::Calculator1::div`,
 								arguments: [inputamt6.current.value,inputamt7.current.value],
 								type_arguments: [],
 								};
@@ -182,11 +165,6 @@ return (
 		<br/>
 		<Button onClick={Disconnect} variant="primary">
 			DisConnect
-		</Button>
-		<br/>
-		<br/>
-		<Button onClick={escrow_account} variant="primary">
-			Create escrow
 		</Button>
 		<br/>
 		<br/>
