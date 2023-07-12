@@ -27,7 +27,7 @@ const inputamt4=useRef(null);
 const inputamt5=useRef(null);
 const inputamt6=useRef(null);
 const inputamt7=useRef(null);
-// const inputamt8=useRef(null);
+const inputamt8=useRef(null);
 
 
 
